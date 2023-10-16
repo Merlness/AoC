@@ -1,5 +1,5 @@
 import re
-
+#part 1
 def fetch_test_data(path):
     file = open(path, "r")
     text = file.read()
@@ -29,4 +29,24 @@ def wrapping_paper(data):
 
     return print(total_wrapping_paper)
 
+#part 2
+def ribbon_feet(dimension):
+    short_side_1 = sorted(dimension)[0]
+    short_side_2 = sorted(dimension)[1]
+
+    return ( 2 * short_side_1
+            + 2 * short_side_2
+            + (dimension[0]
+            * dimension[1]
+            * dimension[2]))
+
+def ribbon_total(data):
+    ribbon_total = 0
+
+    ribbon = [ribbon_feet(dimension) for dimension in data]
+    ribbon_total = sum(ribbon)
+
+    return print(ribbon_total)
+
 wrapping_paper(dimensions_list)
+ribbon_total(dimensions_list)
