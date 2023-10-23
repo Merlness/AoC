@@ -50,4 +50,3 @@ def ribbon_total(data):
 
 wrapping_paper(dimensions_list)
 ribbon_total(dimensions_list)
-print(dimensions_list)
