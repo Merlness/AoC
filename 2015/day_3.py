@@ -8,68 +8,47 @@ def fetch_test_data(path):
     return text
 
 santa_directions = list(fetch_test_data('../test_data/2015/day_3.txt'))
-
-def santa_coordinates(directions):
+#change verbs -ing
+def converting_coordinates(row, column, pointers):
+    row = 0
+    column = 0
+    if pointers == '^':
+        row += 1
+    elif pointers == 'v':
+        row -= 1
+    elif pointers == '>':
+        column += 1
+    elif pointers == '<':
+        column -= 1
+    return row, column
+#change test
+def test(directions):
     x = 0
     y = 0
-    coordinates = set((x,y))
-    
+    coordinates = [(0, 0)]
+
     for moves in directions:
-        if moves == '^':
-            y += 1
-        elif moves == 'v':
-            y -= 1
-        elif moves == '>':
-            x += 1
-        elif moves == '<':
-            x -= 1
-        coordinates.add((x,y))
+        [y_difference, x_difference] = converting_coordinates(y, x, moves)
+        x += x_difference
+        y += y_difference
+        coordinates.append((x, y))
 
     return coordinates
 
-def robo_santa_coordinates(directions):
-    x = 0
-    y = 0
-    a = 0
-    b = 0
+def counting_santa_visits(directions):
+    return len(set(test(directions)))
 
-    coordinates = [(x,y)]
+def counting_robo_santa_visits(directions):
     santa = []
     robo = []
-
+#put these into a function and come out with a vector like above
     for every_other in range(len(directions)):
-        if every_other % 2 ==0:
+        if every_other % 2 == 0:
             santa.append(directions[every_other])
         else:
             robo.append(directions[every_other])
+  
+    return len(set(test(santa) + test(robo)))
 
-    for moves in santa:
-        if moves == '^':
-            y += 1
-        elif moves == 'v':
-            y -= 1
-        elif moves == '>':
-            x += 1
-        elif moves == '<':
-            x -= 1
-        coordinates.append((x,y))
-
-    for moves in robo:
-        if moves == '^':
-            b += 1
-        elif moves == 'v':
-            b -= 1
-        elif moves == '>':
-            a += 1
-        elif moves == '<':
-            a -= 1
-        coordinates.append((a,b))
-
-    return set(coordinates)
-
-santa_coordinates_list = robo_santa_coordinates(santa_directions)
-
-print(len(santa_coordinates_list))
-print(len(santa_coordinates(santa_directions)))
-
-
+print(counting_santa_visits(santa_directions))
+print(counting_robo_santa_visits(santa_directions))

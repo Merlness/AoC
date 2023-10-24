@@ -11,7 +11,7 @@ def format_test_data(lines):
 
 dimensions_list = [format_test_data(x) for x in fetch_test_data('../test_data/2015/day_2.txt')]
 
-def area(dimension):
+def finding_area(dimension):
     length = dimension[0]
     width = dimension[1]
     height = dimension[2]
@@ -21,16 +21,16 @@ def area(dimension):
             + 2 * length * height 
             + min(length * width, width * height, length * height))
 
-def wrapping_paper(data):
+def calculating_wrapping_paper(data):
     total_wrapping_paper=0
 
-    feet_of_wrapping_paper = [area(dimension) for dimension in data]
+    feet_of_wrapping_paper = [finding_area(dimension) for dimension in data]
     total_wrapping_paper = sum(feet_of_wrapping_paper)
 
-    return print(total_wrapping_paper)
+    return total_wrapping_paper
 
 #part 2
-def ribbon_feet(dimension):
+def finding_ribbon_feet(dimension):
     short_side_1 = sorted(dimension)[0]
     short_side_2 = sorted(dimension)[1]
 
@@ -40,13 +40,13 @@ def ribbon_feet(dimension):
             * dimension[1]
             * dimension[2]))
 
-def ribbon_total(data):
+def calculating_ribbon_total(data):
     ribbon_total = 0
 
-    ribbon = [ribbon_feet(dimension) for dimension in data]
+    ribbon = [finding_ribbon_feet(dimension) for dimension in data]
     ribbon_total = sum(ribbon)
 
-    return print(ribbon_total)
+    return ribbon_total
 
-wrapping_paper(dimensions_list)
-ribbon_total(dimensions_list)
+print(calculating_wrapping_paper(dimensions_list))
+print(calculating_ribbon_total(dimensions_list))
