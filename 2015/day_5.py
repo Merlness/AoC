@@ -8,45 +8,7 @@ def fetch_test_data(path):
 
 all_words = list(fetch_test_data('../test_data/2015/day_5.txt'))
 
-#shorten function names
-def finding_nice_words_rule_1(word):
-    for bad_letters in ['xy','ab','cd','pq']:
-            if word.find(bad_letters) >= 0:
-                return False    
-    return True
-
-def finding_nice_words_rule_2(word):
-    if len(re.findall(r'a|e|i|o|u', word)) > 2:
-            return True
-    else: 
-        return False
-
-def finding_nice_words_rule_3(word):
-    for c in range(len(word)):
-        #change
-        if word[c] == word[c-1] and c!= 0:
-            return True
-    return False
-
-def finding_newer_nice_words_rule_one(word):
-    for letter_repeats in range(len(word)):
-        #change
-        if word[letter_repeats] == word[letter_repeats -2] and letter_repeats > 1:
-            return True
-    return False
-
-def finding_newer_nice_words_rule_two(word):
-    for letters_repeat in range(len(word)):
-        for repetition in range(letters_repeat + 2, len(word)-1):
-            #change this
-            if [word[letters_repeat], word[letters_repeat + 1]] == [word[repetition], word[repetition+1]]:
-                return True
-    return False
-
-def is_nice(word):
-    return finding_nice_words_rule_1(word) and finding_nice_words_rule_2(word) and finding_nice_words_rule_3(word)     
-
-def finding_nice_words(words):
+def find_nice_words(words):
     count = 0
 
     for word in words:
@@ -55,21 +17,57 @@ def finding_nice_words(words):
 
     return count
 
-
-
-def finding_newer_nice_words(words):
+def find_newer_nice_words(words):
     count = 0
-    #fix like 1st star
+
     for word in words:
-        first_rule_met = finding_newer_nice_words_rule_one(word)
-        second_rule_met = finding_newer_nice_words_rule_two(word)
-        
-        if first_rule_met and second_rule_met:
+        if is_new_nice(word):
             count += 1
+    
     return count
 
+def check_nice_one(word):
+    for bad_letters in ['xy','ab','cd','pq']:
+            if word.find(bad_letters) >= 0:
+                return False    
+    return True
 
-print(finding_nice_words(all_words))
-print(finding_newer_nice_words(all_words))
+def check_nice_two(word):
+    if len(re.findall(r'a|e|i|o|u', word)) > 2:
+            return True
+    else: 
+        return False
 
-                        
+def check_nice_three(word):
+    for character in range(len(word)):
+        if word[character] == word[character-1] and character!= 0:
+            return True
+    return False
+
+def help_new_nice_one(word):
+    for letter_repeats in range(len(word)):
+        if word[letter_repeats] == word[letter_repeats -2] and letter_repeats > 1:
+            return True
+    return False
+
+def check_new_nice_one(word):
+    return help_new_nice_one(word)
+
+def help_new_nice_two(word):
+    for first_pair in range(len(word)):
+        for second_pair in range(first_pair + 2, len(word)-1):
+            if [word[first_pair], word[first_pair + 1]] == [word[second_pair], word[second_pair+1]]:
+                return True
+    return False 
+
+def check_new_nice_two(word):
+    return help_new_nice_two(word)
+
+def is_nice(word):
+    return check_nice_one(word) and check_nice_two(word) and check_nice_three(word)     
+
+def is_new_nice(word):
+    return check_new_nice_one(word) and check_new_nice_two(word)
+
+print(find_nice_words(all_words))
+print(find_newer_nice_words(all_words))
