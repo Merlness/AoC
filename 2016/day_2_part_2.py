@@ -6,60 +6,62 @@ def fetch_test_data(path):
 
 directions = list(fetch_test_data('../test_data/2016/day_2.txt'))
 
-def decoder(code_list):
+coordinate_to_code = {
+                        (0, 2): 1, 
+                        (-1, 1): 2, 
+                        (0, 1): 3, 
+                        (1, 1): 4, 
+                        (-2, 0): 5, 
+                        (-1, 0): 6, 
+                        (0, 0): 7, 
+                        (1, 0): 8, 
+                        (2, 0): 9, 
+                        (-1, -1): 'A',  
+                        (0, 1): 'B', 
+                        (1, -1):'C', 
+                        (0, -2): 'D', 
+                        }
+
+
+def decoder(instructions):
+    return [coordinate_to_code[find_coordinate(move)] for move in instructions]
+
+def translate_letters(x, y, letter):
+    if letter == 'U':
+        y += 1
+    elif letter == 'D':
+        y -= 1
+    elif letter == 'R':
+        x += 1
+    elif letter == 'L':
+        x -= 1
+
+    return x, y
+
+def set_boundary(x, y, a, b):
+    if (x,y) in [(-1,2), (1,2), (-2,1), (2,1), (-2,-1), (2,-1), (-1,-2), (1,-2), (0,3), (0,-3), (3,0), (-3,0)]:
+        x = a
+        y = b
+    
+    return x, y 
+
+def find_coordinate(move):
     x = -2
     y = 0
-    buttons = []
+    
+    for letter in move:
+        [x, y] = move_coordinates(x, y, letter)
+    
+    return x, y
 
-    for move in code_list:
-            coordinates = []
-
-            for letter in move:
-                a = x
-                b = y
-                if letter == 'U':
-                    y += 1
-                elif letter == 'D':
-                    y -= 1
-                elif letter == 'R':
-                    x += 1
-                elif letter == 'L':
-                    x -= 1
-
-                if (x,y) in [(-1,2), (1,2), (-2,1), (2,1), (-2,-1), (2,-1), (-1,-2), (1,-2), (0,3), (0,-3), (3,0), (-3,0)]:
-                    x = a
-                    y = b
-
-            coordinates.append((x,y))
-            for element in coordinates:
-                if element == ( 0, 2):
-                    buttons.append('1')
-                if element == ( -1, 1):
-                    buttons.append('2')
-                if element == ( 0, 1):
-                    buttons.append('3')
-                if element == ( 1, 1):
-                    buttons.append('4')
-                if element == ( -2, 0):
-                    buttons.append('5')
-                if element == ( -1, 0):
-                    buttons.append('6')
-                if element == ( 0, 0):
-                    buttons.append('7')
-                if element == ( 1, 0):
-                    buttons.append('8')
-                if element == ( 2, 0):
-                    buttons.append('9')
-                if element == ( -1, -1):
-                    buttons.append('A')
-                if element == ( 0, -1):
-                    buttons.append('B')
-                if element == ( 1, -1):
-                    buttons.append('C')
-                if element == ( 0, -2):
-                    buttons.append('D')
-
-    print(buttons)
+def move_coordinates(x, y, letter):
+    a = x
+    b = y
+    
+    [x, y] = translate_letters(x, y, letter)
+    [x, y] = set_boundary(x, y, a, b)
+    return x, y
 
 
-decoder(directions)
+
+print(decoder(directions))

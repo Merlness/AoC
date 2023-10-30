@@ -23,7 +23,7 @@ def track_santa(movements):
         
         position += get_direction(movement)
         has_entered_basement = check_basement(position, has_entered_basement, moves) 
-                
+
     return position
 
-print('Final floor: ',track_santa(moves_code))
+print('Final floor: ', track_santa(moves_code))

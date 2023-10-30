@@ -6,56 +6,55 @@ def fetch_test_data(path):
 
 directions = list(fetch_test_data('../test_data/2016/day_2.txt'))
 
-def decoder(code):
+coordinate_to_number = {
+                        (-1, 1): 1,
+                        (0, 1): 2,
+                        (1, 1): 3,
+                        (-1, 0): 4,
+                        (0, 0): 5,
+                        (1, 0): 6,
+                        (-1, -1): 7,
+                        (0, -1): 8,
+                        (1, -1): 9,
+                        }
+
+def decoder(instructions):
+    return [coordinate_to_number[find_coordinate(move)] for move in instructions]
+
+def translate_letters(x, y, letter):
+    if letter == 'U':
+        y += 1
+    elif letter == 'D':
+        y -= 1
+    elif letter == 'R':
+        x += 1
+    elif letter == 'L':
+        x -= 1
+    return x, y
+
+def set_boundaries(x, y):
+    if x == 2:
+        x = 1
+    if x == -2:
+        x = -1
+    if y == 2:
+        y = 1
+    if y == -2:
+        y = -1
+
+    return x, y
+
+def find_coordinate(move):
     x = 0
     y = 0
-    numbers = []
+    
+    for letter in move:
+        [x, y] = move_coordinates(x, y, letter)
+    
+    return x, y
 
-    for move in code:
-            coordinates = []
+def move_coordinates(x, y, letter):
+    [x, y] = translate_letters(x, y, letter)
+    return set_boundaries(x, y)
 
-            for letter in move:
-                if letter == 'U':
-                    y += 1
-                elif letter == 'D':
-                    y -= 1
-                elif letter == 'R':
-                    x += 1
-                elif letter == 'L':
-                    x -= 1
-
-                if x == 2:
-                    x = 1
-                if x == -2:
-                    x = -1
-                if y == 2:
-                    y = 1
-                if y == -2:
-                    y = -1
-
-            coordinates.append((x,y))
-            for element in coordinates:
-                if element == ( -1, 1):
-                    numbers.append('1')
-                if element == ( 0, 1):
-                    numbers.append('2')
-                if element == ( 1, 1):
-                    numbers.append('3')
-                if element == ( -1, 0):
-                    numbers.append('4')
-                if element == ( 0, 0):
-                    numbers.append('5')
-                if element == ( 1, 0):
-                    numbers.append('6')
-                if element == ( -1, -1):
-                    numbers.append('7')
-                if element == ( 0, -1):
-                    numbers.append('8')
-                if element == ( 1, -1):
-                    numbers.append('9')
-
-    print(numbers)
-
-
-decoder(directions)
-
+print(decoder(directions))
