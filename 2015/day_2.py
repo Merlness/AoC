@@ -1,52 +1,51 @@
-import re
-#part 1
-def fetch_test_data(path):
-    file = open(path, "r")
-    text = file.read()
-    file.close()
-    return text.split("\n")
+def part_1(dimensions):
+    return sum_by(dimensions, find_wrapping_paper)
 
-def format_test_data(lines):
-    return [int(s) for s in re.findall(r'\d+', lines)]
+def find_sides(dimension):
+    [length, width, height] = dimension
 
-dimensions_list = [format_test_data(x) for x in fetch_test_data('../test_data/2015/day_2.txt')]
+    sides = [2 * length * width,
+            2 * width * height,
+            2 * height * length]
+    sides.sort()
 
-def finding_area(dimension):
-    length = dimension[0]
-    width = dimension[1]
-    height = dimension[2]
+    return sides
+
+def find_wrapping_paper(dimension):
+    sides = find_sides(dimension)
+    shortest_side = sides[0] / 2
+
+    return sum(sides) + shortest_side
+
+def part_2(dimensions):
+    return sum_by(dimensions, find_ribbon_length)
+
+def add_ribbon_sides(dimension):
+    dimension.sort()
+
+    short_side_1 = dimension[0]
+    short_side_2 = dimension[1]
+
+    return 2 * (short_side_1 + short_side_2)
+
+def find_ribbon_bow(dimension):
+    ribbon_bow = 1
+
+    for length in dimension:
+        ribbon_bow = ribbon_bow * length  
+
+    return ribbon_bow
+
+def find_ribbon_length(dimension):
+    ribbon_side_length = add_ribbon_sides(dimension)
+    ribbon_bow = find_ribbon_bow(dimension)
+
+    return ribbon_side_length + ribbon_bow
+
+def sum_by(collection, measure):
+    total = 0
     
-    return (2 * length * width 
-            + 2 * width * height 
-            + 2 * length * height 
-            + min(length * width, width * height, length * height))
+    for item in collection:
+        total += int(measure(item))
 
-def calculating_wrapping_paper(data):
-    total_wrapping_paper=0
-
-    feet_of_wrapping_paper = [finding_area(dimension) for dimension in data]
-    total_wrapping_paper = sum(feet_of_wrapping_paper)
-
-    return total_wrapping_paper
-
-#part 2
-def finding_ribbon_feet(dimension):
-    short_side_1 = sorted(dimension)[0]
-    short_side_2 = sorted(dimension)[1]
-
-    return ( 2 * short_side_1
-            + 2 * short_side_2
-            + (dimension[0]
-            * dimension[1]
-            * dimension[2]))
-
-def calculating_ribbon_total(data):
-    ribbon_total = 0
-
-    ribbon = [finding_ribbon_feet(dimension) for dimension in data]
-    ribbon_total = sum(ribbon)
-
-    return ribbon_total
-
-print(calculating_wrapping_paper(dimensions_list))
-print(calculating_ribbon_total(dimensions_list))
+    return total
