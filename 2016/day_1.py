@@ -1,45 +1,123 @@
-import re
-from collections import Counter
-
-instructions= 'R1, R3, L2, L5, L2, L1, R3, L4, R2, L2, L4, R2, L1, R1, L2, R3, L1, L4, R2, L5, R3, R4, L1, R2, L1, R3, L4, R5, L4, L5, R5, L3, R2, L3, L3, R1, R3, L4, R2, R5, L4, R1, L1, L1, R5, L2, R1, L2, R188, L5, L3, R5, R1, L2, L4, R3, R5, L3, R3, R45, L4, R4, R72, R2, R3, L1, R1, L1, L1, R192, L1, L1, L1, L4, R1, L2, L5, L3, R5, L3, R3, L4, L3, R1, R4, L2, R2, R3, L5, R3, L1, R1, R4, L2, L3, R1, R3, L4, L3, L4, L2, L2, R1, R3, L5, L1, R4, R2, L4, L1, R3, R3, R1, L5, L2, R4, R4, R2, R1, R5, R5, L4, L1, R5, R3, R4, R5, R3, L1, L2, L4, R1, R4, R5, L2, L3, R4, L4, R2, L2, L4, L2, R5, R1, R4, R3, R5, L4, L4, L5, L5, R3, R4, L1, L3, R2, L2, R1, L3, L5, R5, R5, R3, L4, L2, R4, R5, R1, R4, L3'
-
-instructions_list = instructions.split(", ")
-
-def find_distance( directions):
-    degrees = 90
+def part_1(instructions):
+    cardinal_direction = 90
     x = 0
-    y = 0
+    y= 0
 
-    for movement in directions:
-        direction = movement[0]
-        distance = int(movement[1:])
-        
-        degrees = change_direction(degrees, direction)      
-        [x, y] = move(x, y, degrees, distance)
-
+    for instruction in instructions:
+        cardinal_direction = change_direction(cardinal_direction, instruction)
+        [x, y] = change_distance(x, y, cardinal_direction, instruction)
+    
     return abs(x) + abs(y)
 
-def change_direction(degrees, direction):
-    if direction == 'R':
-        degrees -= 90
+def change_direction(cardinal_direction, instruction):
+    if instruction[0] == 'R':
+        cardinal_direction -=90
     else:
-        degrees += 90
+        cardinal_direction += 90
+
+    if abs(cardinal_direction) == 360:
+        cardinal_direction = 0
     
-    if degrees == 360 or degrees == -360:
-        degrees = 0
+    return cardinal_direction
 
-    return degrees
-
-def move(x, y, degrees, distance):
-    if degrees == 0:
-        x += distance
-    elif degrees == 90 or degrees == -270:
-        y += distance
-    elif degrees == 180 or degrees == -180:
-        x -= distance
-    elif degrees == 270 or degrees == -90:
-        y -= distance
-
+def change_distance(x, y, cardinal_direction, instruction):
+    if cardinal_direction == 90 or cardinal_direction == -270:
+        y += int(instruction[1:])
+    elif cardinal_direction == 270 or cardinal_direction == -90:
+        y -= int(instruction[1:])
+    elif abs(cardinal_direction) == 180:
+        x -= int(instruction[1:])
+    elif cardinal_direction == 0:
+        x += int(instruction[1:])
+    
     return x, y
 
-print(find_distance(instructions_list))
+def part_2(instructions):
+    cardinal_direction = 90
+    x = 0
+    y= 0
+    coordinates = [(x, y)]
+
+    for instruction in instructions:
+        a = x
+        b = y
+        cardinal_direction = change_direction(cardinal_direction, instruction)
+        [x, y] = change_distance(x, y, cardinal_direction, instruction)
+
+
+
+
+def tracking():
+    points = [(0, 0), (-8, 0)]
+    coordinates = []
+    for coordinate in points:
+        x = points[-2][0]
+        y = points[-2][1]
+        a = points[-1][0]
+        b = points[-1][1]
+
+        change_in_x = x + a
+        change_in_y = y + b
+        total_change = abs(change_in_x) + abs(change_in_y)
+
+        for piece in range(total_change + 1):
+            if change_in_x != 0:
+                if change_in_x > 0:
+                    temp = x + piece
+                    if (temp, y) in coordinates:
+                        return print(abs(temp) + abs(y))
+                    coordinates.append((temp, y))
+
+
+
+                else:
+                    temp = x - piece
+                    # if (temp, y) in coordinates:
+                    #     return print(abs(temp) + abs(y))
+
+                    coordinates.append((temp, y))
+
+
+
+
+
+# - - - - - - - -
+#       -       -
+#       -       -
+#       -       -
+#       - - - - -
+
+# def part_2(instructions):
+#     cardinal_direction = 90
+#     x = 0
+#     y= 0
+#     coordinates = [(x, y)]
+
+#     for instruction in instructions:
+#         a = x
+#         b = y
+#         cardinal_direction = change_direction(cardinal_direction, instruction)
+#         [x, y] = change_distance(x, y, cardinal_direction, instruction)
+        
+#         coordinate_distance_x = abs(abs(x) - abs(a))
+#         coordinate_distance_y = abs(abs(y) - abs(b))
+#         coordinate_distance = coordinate_distance_y + coordinate_distance_x
+        
+#         for distance in range(1, coordinate_distance + 1):
+#             if coordinate_distance_x > 0:
+#                 if
+
+#                 if (a + distance, b) in coordinates:
+#                     return abs(a) + abs(b)
+
+#                 coordinates.append((a + distance, b))
+
+#             else:
+#                 if (a, b + distance) in coordinates:
+#                     return abs(a) + abs(b)
+#                 coordinates.append((a, b + distance))
+
+        # if (x, y) in coordinates:
+        #     return abs(x) + abs(y)
+
+        # coordinates.append((x,y))
