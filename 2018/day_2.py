@@ -1,3 +1,5 @@
+import collections
+
 def part_1(IDs):
     count_list = []
     twos= 0
@@ -25,30 +27,51 @@ def calculate_twos_threes(twos, threes, count_list):
 
 
 def part_2(IDs):
-    list_of_similar_letters = []
+    rest_of_IDs = IDs[1:]
+    for id in IDs:
+        for check_id in rest_of_IDs:
+             if is_off_by_one(id, check_id):
+                return similar_chars(id, check_id)
 
-    for root_word in range(len(IDs)):
-        # for next_word in range(root_word + 1, len(IDs)):
-        #     similar_char = check_letters(IDs, root_word, next_word)
-        #     list_of_similar_letters.append(similar_char)
-        list_of_similar_letters += asd(root_word, IDs)
+    return False
+   
 
-    return ''.join(max(list_of_similar_letters, key=len))
+def is_off_by_one(id, check_id):
+    one_off_length = len(id) - 1
+    if is_only_one_difference(id, check_id):
+        if is_in_correct_order(id, check_id):
+            return True
 
+    return False
 
-def asd(root_word, IDs):
-    similar_letters = []
-    for next_word in range(root_word + 1, len(IDs)):
-        similar_char = check_letters(IDs, root_word, next_word)
-        similar_letters.append(similar_char)
+def similar_chars(id, check_id):
+    one_off_length = len(id) - 1
+    word = []
 
-    return similar_letters
+    for char in range(one_off_length + 1):
+        if id[char] == check_id[char]:
+            word.append(id[char])
 
-def check_letters(IDs, word, iterable_word):
-    similar_char = []
+    return ''.join(word)
 
-    for char in range(len(IDs[word])):
-        if IDs[word][char] == IDs[iterable_word][char]:
-            similar_char.append(IDs[word][char])
+def is_only_one_difference(id, check_id):
+    result = collections.Counter(id) & collections.Counter(check_id)
+    intersected_list = list(result.elements())
+    one_off_length = len(id) - 1
 
-    return similar_char
+    if len(intersected_list) == one_off_length:
+        return True
+    return False    
+
+def is_in_correct_order(id, check_id):
+    one_off_length = len(id) - 1
+    perfect_match = 0
+
+    for char in range(one_off_length + 1):
+        if id[char] == check_id[char]:
+            perfect_match += 1
+    
+    if perfect_match == one_off_length:
+        return True
+    
+    return False

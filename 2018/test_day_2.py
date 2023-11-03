@@ -52,11 +52,21 @@ class Test_Day_2_Part_1(unittest.TestCase):
         box_IDs = ['aa', 'ab']
         checksum = sut.part_2(box_IDs) 
         self.assertEqual(checksum, 'a')
+
+    def test_two_more_ids(self):
+        box_IDs = ['bbc', 'abc']
+        checksum = sut.part_2(box_IDs) 
+        self.assertEqual(checksum, 'bc')
+
+    def test_two_ids(self):
+        box_IDs = ['bb', 'ab']
+        checksum = sut.part_2(box_IDs) 
+        self.assertEqual(checksum, 'b')
+
      
     def test_AoC_test(self):
         box_IDs = ['abcde', 'fghij', 'klmno', 'pqrst', 'fguij', 'axcye', 'wvxyz']
         checksum = sut.part_2(box_IDs) 
-        print(checksum)
         self.assertEqual(checksum, 'fgij')
 
     def test_whole_list(self):
