@@ -20,7 +20,9 @@ class Test_Day_2_Part_1(unittest.TestCase):
     def test_no_prism(self):
         dimension = [[0, 0, 0]]
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimension) 
+        elves.wrap(dimension)
+        elves.wrap(dimension)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 0)
 
     def test_simplest_prism(self):
@@ -32,30 +34,35 @@ class Test_Day_2_Part_1(unittest.TestCase):
     def test_simple_prism(self):
         dimension = [[2, 3, 4]]
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimension)
+        elves.wrap(dimension)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 58)
     
     def test_medium_prism(self):
         dimension = [[1, 1 ,10]]
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimension)
+        elves.wrap(dimension)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 43)
     
     def test_two_prisms(self):
         dimension = [[1, 1 ,10], [1, 1, 1]]
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimension)
+        elves.wrap(dimension)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 50)
 
     def test_three_prisms(self):
         dimension = [[10, 1 ,1], [1, 1, 1], [2, 3, 4]]
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimension)
+        elves.wrap(dimension)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 108)
 
     def test_all_of_list(self):
         elves = sut.elves()
-        wrapping_paper = elves.calc_wrapping_paper(dimensions_list)
+        elves.wrap(dimensions_list)
+        wrapping_paper = elves.get_wrapping_paper()
         self.assertEqual(wrapping_paper, 1588178)
 
 class Test_Day_2_Part_2(unittest.TestCase):
@@ -63,36 +70,42 @@ class Test_Day_2_Part_2(unittest.TestCase):
     def test_no_ribbon(self):
         dimension = [[0, 0, 0]]
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimension) 
+        elves.wrap(dimension)
+        length_of_ribbon = elves.get_ribbon_length() 
         self.assertEqual(length_of_ribbon, 0)
 
     def test_simplest_ribbon(self):
         dimension = [[1, 1, 1]]
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimension)  
+        elves.wrap(dimension)
+        length_of_ribbon = elves.get_ribbon_length()  
         self.assertEqual(length_of_ribbon, 5)
 
     def test_easy_ribbon(self):
         dimension = [[2, 3, 4]]
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimension) 
+        elves.wrap(dimension)
+        length_of_ribbon = elves.get_ribbon_length()  
         self.assertEqual(length_of_ribbon, 34)
 
     def test_medium_ribbon(self):
         dimension = [[1, 10, 1]]
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimension) 
+        elves.wrap(dimension)
+        length_of_ribbon = elves.get_ribbon_length()  
         self.assertEqual(length_of_ribbon, 14)
     
     def test_two_ribbons(self):
         dimension = [[1, 10, 1], [2, 3, 4]]
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimension) 
+        elves.wrap(dimension)
+        length_of_ribbon = elves.get_ribbon_length()  
         self.assertEqual(length_of_ribbon, 48)
 
     def test_all_of_list(self):
         elves = sut.elves()
-        length_of_ribbon = elves.calc_ribbon(dimensions_list)
+        elves.wrap(dimensions_list)
+        length_of_ribbon = elves.get_ribbon_length() 
         self.assertEqual(length_of_ribbon, 3783758)
 
 if __name__ == '__main__':
