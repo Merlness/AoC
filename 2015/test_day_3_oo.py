@@ -1,9 +1,6 @@
 import unittest
 import day_3_oo as sut
 
-import re
-from collections import Counter
-
 def fetch_test_data(path):
     file = open(path, "r")
     text = file.read()

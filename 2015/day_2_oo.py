@@ -8,10 +8,6 @@ class elves:
         self.width = 0
         self.height = 0
         self.wrapping_paper = 0
-# try to have your getters do little work - readonly
-# while setters do all the work - write
-# put for loop of calc wrap and ribbon in wrap
-
 
     def get_wrapping_paper(self):
         return self.wrapping_paper
@@ -20,10 +16,8 @@ class elves:
         return self.ribbon_length
     
     def wrap(self, gifts):
-        # do work...
         self.ribbon_length = self.calc_ribbon(gifts)
         self.wrapping_paper = self.calc_wrapping_paper(gifts)
-
     
     def calc_wrapping_paper(self, dimensions):
         wrapping_paper = self.wrapping_paper
